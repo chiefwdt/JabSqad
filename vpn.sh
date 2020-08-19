@@ -1814,12 +1814,12 @@ if [[ "${action}" == "clearall" ]]; then
 elif [[ "${action}" == "monitor" ]]; then
 	crontab_monitor_ssr
 else
-	echo -e "  Скрипт установки и модерации сервера ShadowsocksR ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
+	echo -e "  ShadowsocksR ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
 
   ${Green_font_prefix}1.${Font_color_suffix} Установить ShadowsocksR
   ${Green_font_prefix}2.${Font_color_suffix} Обновить ShadowsocksR
   ${Green_font_prefix}3.${Font_color_suffix} Удалить ShadowsocksR
-  ${Green_font_prefix}4.${Font_color_suffix} Установить libsodium(Plug-in для работы серверов с шифроанием типа chacha20 и salsa20)
+  ${Green_font_prefix}4.${Font_color_suffix} Установить libsodium
 ————————————
   ${Green_font_prefix}5.${Font_color_suffix} Посмотреть информацию о пользователях
   ${Green_font_prefix}6.${Font_color_suffix} Показать информацию о соединениях
@@ -1833,7 +1833,7 @@ else
  ${Green_font_prefix}13.${Font_color_suffix} Просмотреть лог ShadowsocksR
 ————————————
  ${Green_font_prefix}14.${Font_color_suffix} Другие функции
- ${Green_font_prefix}15.${Font_color_suffix} Загрузить Базу Данных пользователей в облако (beta)
+ ${Green_font_prefix}15.${Font_color_suffix} Загрузить Базу Данных пользователей в облако
  "
 	menu_status
 	echo && read -e -p "Введите корректный номер [1-15]：" num
