@@ -6,7 +6,6 @@ export PATH
 #	System Required: CentOS 6+/Debian 6+/Ubuntu 14.04+
 #	Description: Install the ShadowsocksR mudbjson server
 #	Version: 1.0.26
-#   Translator: xyl1gun4eg
 #=================================================
 
 sh_ver="7.7.7"
@@ -1753,16 +1752,15 @@ if [[ "${action}" == "clearall" ]]; then
 elif [[ "${action}" == "monitor" ]]; then
 	crontab_monitor_ssr
 else
-	echo -e " Скрипт установки и модерации сервера ShadowsocksR ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-	---- xyl1gun4eg|tg:@xyl1gun4eg|jb:xyl1gun4eg@jabbim.com ----
+	echo -e " Скрипт модерации сервера ShadowsocksR ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
+	---- CHIEFTAIN VPN USER CONTROL ----
 "
 echo -e "Приветсвую, администратор сервера!
 
   ${Green_font_prefix}1.${Font_color_suffix} Установить ShadowsocksR
-  ${Green_font_prefix}2.${Font_color_suffix} Обновить ShadowsocksR (Данная функция отключена)
+  ${Green_font_prefix}2.${Font_color_suffix} Обновить ShadowsocksR
   ${Green_font_prefix}3.${Font_color_suffix} Удалить ShadowsocksR
-  ${Green_font_prefix}4.${Font_color_suffix} Установить libsodium(Plug-in для работы серверов с шифроанием типа chacha20 и salsa20)
-————————————
+  ${Green_font_prefix}4.${Font_color_suffix} Установить libsodium
   ${Green_font_prefix}5.${Font_color_suffix} Посмотреть информацию о пользователях
   ${Green_font_prefix}6.${Font_color_suffix} Показать информацию о соединениях
   ${Green_font_prefix}7.${Font_color_suffix} Настройки конфигурации юзеров
@@ -1775,8 +1773,8 @@ echo -e "Приветсвую, администратор сервера!
  ${Green_font_prefix}13.${Font_color_suffix} Просмотреть лог ShadowsocksR
 ————————————
  ${Green_font_prefix}14.${Font_color_suffix} Другие функции
- ${Green_font_prefix}15.${Font_color_suffix} Загрузить Базу Данных пользователей в облако (beta)
- ${Green_font_prefix}16.${Font_color_suffix} Загрузить Базу Данных пользователей из облака (beta)
+ ${Green_font_prefix}15.${Font_color_suffix} Загрузить Базу Данных пользователей в облако
+ ${Green_font_prefix}16.${Font_color_suffix} Загрузить Базу Данных пользователей из облака
  "
 	menu_status
 	echo && read -e -p "Введите корректный номер [1-16]：" num
