@@ -377,12 +377,18 @@ Set_config_user(){
 	echo && echo ${Separator_1} && echo -e "	Имя пользователя : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_port(){
-	echo -e "Порт автоматически сгенерирован."
-	ssr_port=$(shuf -i 1000-9999 -n 1)
-	while true
-	do
-	echo $((${ssr_port}+0)) &>/dev/null
-	if [[ $? == 0 ]]; then
+	echo "Порт
+	1. Авто
+	2. Вручную"	
+	read -e -p "По умолчанию: (1.Авто)" how_to_port
+	[[ -z "${how_to_port}" ]] && how_to_port="1"
+	if [[ ${how_to_port} == "1" ]]; then
+		echo -e "Порт автоматически сгенерирован."
+		ssr_port=$(shuf -i 1000-9999 -n 1)
+		while true
+		do
+		echo $((${ssr_port}+0)) &>/dev/null
+		if [[ $? == 0 ]]; then
 		if [[ ${ssr_port} -ge 1 ]] && [[ ${ssr_port} -le 65535 ]]; then
 			echo && echo ${Separator_1} && echo -e "	Порт: : ${Green_font_prefix}${ssr_port}${Font_color_suffix}" && echo ${Separator_1} && echo
 			break
@@ -393,6 +399,41 @@ Set_config_port(){
 		echo -e "${Error} Введите корректный порт(1-65535)"
 	fi
 	done
+	elif [[ ${how_to_port} == "2" ]]; then
+		while true
+		do
+			read -e -p "Порт:" ssr_port
+			[[ -z "$ssr_port" ]] && break
+			echo $((${ssr_port}+0)) &>/dev/null
+			if [[ $? == 0 ]]; then
+				if [[ ${ssr_port} -ge 1 ]] && [[ ${ssr_port} -le 65535 ]]; then
+					echo && echo ${Separator_1} && echo -e "	Порт: : ${Green_font_prefix}${ssr_port}${Font_color_suffix}" && echo ${Separator_1} && echo
+					break
+				else
+					echo -e "${Error} Введите корректный порт(1-65535)"
+				fi
+			else
+				echo -e "${Error} Введите корректный порт(1-65535)"
+			fi
+		done
+	else 
+		echo -e "Порт автоматически сгенерирован."
+		ssr_port=$(shuf -i 1000-9999 -n 1)
+		while true
+		do
+		echo $((${ssr_port}+0)) &>/dev/null
+		if [[ $? == 0 ]]; then
+			if [[ ${ssr_port} -ge 1 ]] && [[ ${ssr_port} -le 65535 ]]; then
+			echo && echo ${Separator_1} && echo -e "	Порт: : ${Green_font_prefix}${ssr_port}${Font_color_suffix}" && echo ${Separator_1} && echo
+			break
+			else
+			echo -e "${Error} Введите корректный порт(1-65535)"
+			fi
+		else
+		echo -e "${Error} Введите корректный порт(1-65535)"
+		fi
+		done
+	fi
 }
 Set_config_password(){
 	echo "Пароль:
