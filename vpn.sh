@@ -1772,7 +1772,7 @@ Download_DB(){
 	read -e -p "(По умолчанию: отмена):" base_override
 	[[ -z "${base_override}" ]] && echo "Отмена..." && exit 1
 	if [[ ${base_override} == "y" ]]; then
-		read -e -p "${Green_font_prefix} Введите ссылку на базу: (полученная в 15 пункте):(Если вы ее не сделали, то введите 'n')${Font_color_suffix}" base_link
+		read -e -p "${Green_font_prefix} Введите ссылку на базу: (полученная в 15 пункте):(Если вы ее не сделали, то введите 'n')${Font_color_suffix}" base_link && echo
 		[[ -z "${base_link}" ]] && echo "Отмена..." && exit 1
 		if [[ ${base_link} == "n" ]]; then
 			echo "Отмена..." && exit 1
@@ -1780,6 +1780,7 @@ Download_DB(){
 			curl -o "mudb.json" "${base_link}"
 			rm "/usr/local/shadowsocksr/mudb.json"
 			mv "${filepath}/mudb.json" "/usr/local/shadowsocksr/"
+			echo -e "База успешно импортирована!" && echo
 		fi
 	elif [[ ${base_override} == "n" ]]; then
 		echo "Отмена..." && exit 1
