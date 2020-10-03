@@ -1786,6 +1786,9 @@ Download_DB(){
 		echo "Отмена..." && exit 1
 	fi
 }
+Server_IP_Checker(){
+	 echo -e "IP данного сервера = $(curl "ifconfig.me") " && echo
+}
 check_sys
 [[ ${release} != "debian" ]] && [[ ${release} != "ubuntu" ]] && [[ ${release} != "centos" ]] && echo -e "${Error} 本脚本不支持当前系统 ${release} !" && exit 1
 action=$1
@@ -1817,6 +1820,7 @@ echo -e "Приветсвую, администратор сервера!
  ${Green_font_prefix}14.${Font_color_suffix} Другие функции
  ${Green_font_prefix}15.${Font_color_suffix} Загрузить Базу Данных пользователей в облако
  ${Green_font_prefix}16.${Font_color_suffix} Загрузить Базу Данных пользователей из облака
+ ${Green_font_prefix}17.${Font_color_suffix} Просмотреть IP адрес сервера
  "
 	menu_status
 	echo && read -e -p "Введите корректный номер [1-16]：" num
@@ -1869,6 +1873,9 @@ case "$num" in
 	16)
 	Download_DB
 	;;
+	17)
+		Server_IP_Checker
+  ;;
 	*)
 	echo -e "${Error} Введите корректный номер [1-16]"
 	;;
