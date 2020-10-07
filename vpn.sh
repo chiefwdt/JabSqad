@@ -1257,10 +1257,20 @@ Del_port_user(){
 			match_del=$(python mujson_mgr.py -d -p "${del_user_port}"|grep -w "delete user ")
 			if [[ -z "${match_del}" ]]; then
 				echo -e "${Error} Удаление пользователя неуспешно ${Green_font_prefix}[Порт: ${del_user_port}]${Font_color_suffix} "
+				break
 			else
 				Del_iptables
 				Save_iptables
 				echo -e "${Info} Удаление пользователя успешно ${Green_font_prefix}[Порт: ${del_user_port}]${Font_color_suffix} "
+				echo
+				read -e -p "Хотите продолжить удаление пользователей？[Y/n]:" delyn
+				[[ -z ${delyn} ]] && delyn="y"
+				if [[ ${delyn} == [Nn] ]]; then
+					break
+				else
+					echo -e "${Info} Продолжение удаления конфигурации пользователя..."
+					Del_port_user
+				fi
 			fi
 			break
 		else
