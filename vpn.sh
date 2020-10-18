@@ -1810,7 +1810,7 @@ else
 	echo -e " Скрипт модерации сервера ShadowsocksR ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
 	---- CHIEFTAIN VPN USER CONTROL ----
 "
-echo -e "Приветсвую, администратор сервера!
+echo -e "Приветствую, администратор сервера!
 
   ${Green_font_prefix}1.${Font_color_suffix} Установить ShadowsocksR
   ${Green_font_prefix}2.${Font_color_suffix} Обновить ShadowsocksR
