@@ -1833,7 +1833,7 @@ echo -e "Приветствую, администратор сервера!
  ${Green_font_prefix}17.${Font_color_suffix} Просмотреть IP адрес сервера
  "
 	menu_status
-	echo && read -e -p "Введите корректный номер [1-16]：" num
+	echo && read -e -p "Введите корректный номер [1-17]：" num
 case "$num" in
 	1)
 	Install_SSR
