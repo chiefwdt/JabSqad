@@ -1280,7 +1280,7 @@ Del_port_user(){
 }
 Manually_Modify_Config(){
 	SSR_installation_status
-	vi ${config_user_mudb_file}
+	nano ${config_user_mudb_file}
 	echo "Вы хотите перезагрузить ShadowsocksR сейчас？[Y/n]" && echo
 	read -e -p "(По умолчанию: y):" yn
 	[[ -z ${yn} ]] && yn="y"
