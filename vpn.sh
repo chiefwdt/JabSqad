@@ -1771,14 +1771,23 @@ Upload_DB(){
 	curl -F "file=@/usr/local/shadowsocksr/mudb.json" "https://file.io" && echo -e "${Green_font_prefix}Закрытие программы...${Font_color_suffix}"
 }
 Download_DB(){
-echo -e "${Green_font_prefix} Внимание: это приведет к перезаписи всей базы пользователей, вы готовы что хотите продолжить?${Font_color_suffix}(y/n)"
-read -e -p "(По умолчанию: отмена):" base_override
-if [[ ${base_link} == "n" ]]; then   echo "Отмена..." && exit 1  else 
-cd /usr/local/shadowsocksr
-rm "/usr/local/shadowsocksr/mudb.json"
-curl -o "mudb.json" "${base_link}"   
- echo -e "База успешно импортирована!" && echo
-  fi
+	echo -e "${Green_font_prefix} Внимание: это приведет к перезаписи всей базы пользователей, вы готовы что хотите продолжить?${Font_color_suffix}(y/n)"
+	read -e -p "(По умолчанию: отмена):" base_override
+	[[ -z "${base_override}" ]] && echo "Отмена..." && exit 1
+	if [[ ${base_override} == "y" ]]; then
+		read -e -p "${Green_font_prefix} Введите ссылку на базу: (полученная в 15 пункте):(Если вы ее не сделали, то введите 'n')${Font_color_suffix}" base_link && echo
+		[[ -z "${base_link}" ]] && echo "Отмена..." && exit 1
+		if [[ ${base_link} == "n" ]]; then
+   echo "Отмена..." && exit 1
+else 
+   cd /usr/local/shadowsocksr
+   rm "/usr/local/shadowsocksr/mudb.json"
+   curl -o "mudb.json" "${base_link}"   
+   echo -e "База успешно импортирована!"
+fi
+	elif [[ ${base_override} == "n" ]]; then
+		echo "Отмена..." && exit 1
+	fi
 }
 Server_IP_Checker(){
 	 echo -e "IP данного сервера = $(curl "ifconfig.me") " && echo
