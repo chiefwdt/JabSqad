@@ -785,6 +785,40 @@ Modify_config_all(){
 	Modify_config_transfer
 	Modify_config_forbid
 }
+setiplimit(){
+	del_user_port=$ssr_port
+	del_user=$(cat "${config_user_mudb_file}"|grep '"port": '"${del_user_port}"',')
+	if [[ ! -z ${del_user} ]]; then
+		clear
+		echo -e "Настройка мер пресечений нарушения правил для клиента с портом $del_user_port"
+		echo -e 'cd "/usr/local/shadowsocksr"' > "/usr/local/shadowsocksr/${del_user_port}checking.sh"
+		echo -e "port=$del_user_port" > "/usr/local/shadowsocksr/${del_user_port}checking.sh"
+		echo -e 'user_IP_1=$(netstat -anp |grep '\''ESTABLISHED'\'' |grep '\''python'\'' |grep '\''tcp6'\'' |grep ":${port} " |awk '\''{print $5}'\'' |awk -F ":" '\''{print $1}'\'' |sort -u |grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")' >> "/usr/local/shadowsocksr/${del_user_port}checking.sh"
+		echo -e 'user_IP_total=$(echo -e "${user_IP_1}"|wc -l)' >> "/usr/local/shadowsocksr/${del_user_port}checking.sh"
+		echo -e 'if [[ $user_IP_total -gt 1 ]]; then
+	if [[ $user_IP_total -gt 1 ]]; then
+		cd "/usr/local/shadowsocksr"
+		ssr_password=$(date +%s%N | md5sum | head -c 16)
+		python "/usr/local/shadowsocksr/mujson_mgr.py" -e -p "${port}" -k "${ssr_password}"
+		sed -i "${port}checking.sh/d" "/usr/local/shadowsocksr/crontab.bak" 
+		crontab -r
+		crontab "/usr/local/shadowsocksr/crontab.bak"
+		rm "/usr/local/shadowsocksr/${port}checking.sh"
+	fi
+else
+	echo
+fi' >> "/usr/local/shadowsocksr/${del_user_port}checking.sh"
+		if [[ ! -e "/usr/local/shadowsocksr/crontab.bak" ]]; then
+			echo -e "\n* * * * * /bin/bash /usr/local/shadowsocksr/${del_user_port}checking.sh" > "/usr/local/shadowsocksr/crontab.bak"
+		else
+			echo -e "\n* * * * * /bin/bash /usr/local/shadowsocksr/${del_user_port}checking.sh" >> "/usr/local/shadowsocksr/crontab.bak"
+		fi
+		crontab "/usr/local/shadowsocksr/crontab.bak"
+		echo -e "При подключении более 1 IP адреса к ключу с портом $del_user_port, пароль будет сменен на случайный."	
+	else
+		echo -e "${Error} Введите корректный порт !"
+	fi	
+}
 Check_python(){
 	python_ver=`python -h`
 	if [[ -z ${python_ver} ]]; then
@@ -1229,6 +1263,7 @@ Add_port_user(){
 			else
 				Add_iptables
 				Save_iptables
+				setiplimit
 				echo -e "${Info} Пользователь добавлен успешно ${Green_font_prefix}[Пользователь: ${ssr_user} , Порт: ${ssr_port}]${Font_color_suffix} "
 				echo
 				read -e -p "Хотите продолжить настройку пользователя？[Y/n]:" addyn
@@ -1236,6 +1271,29 @@ Add_port_user(){
 				if [[ ${addyn} == [Nn] ]]; then
 					Get_User_info "${ssr_port}"
 					View_User_info
+					read -e -p "Хотите настроить автоудаление пользователя?[Y/n]:" autoyn
+					[[ -z ${autoyn} ]] && autoyn="y"
+					if [[ ${autoyn} == [Yy] ]]; then
+						apt install at
+						sudo systemctl enable --now atd
+						port=${ssr_port}
+						clear
+						echo
+						echo
+						echo
+						echo
+						echo		
+						read -e -p "Введите период удаления в днях:" periodofdel
+						at now +$periodofdel days <<ENDMARKER
+python "/usr/local/shadowsocksr/mujson_mgr.py" -d -p '${ssr_port}'
+ENDMARKER
+						clear
+						echo
+						echo
+						echo
+						echo -e "Пользователь с портом ${Green_font_prefix}$ssr_port${Font_color_suffix} будет удален через $periodofdel дней."
+						break
+					fi					
 					break
 				else
 					echo -e "${Info} Продолжение изменения конфигурации пользователя..."
