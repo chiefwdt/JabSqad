@@ -1764,13 +1764,6 @@ menu_status(){
 		echo -e " Текущий статус: ${Red_font_prefix}не установлен${Font_color_suffix}"
 	fi
 }
-Donate_Link(){
-	echo -e "${Green_font_prefix}Если вы хотите помочь создателю, то можете задонатить ему на чай :3
-	Реквизиты:
-	Qiwi: qiwi.com/n/XYL1GUN4EG
-	Visa Card: 4890494709980528
-	btc: 1CUAEkoPFF5HgFPS6JphohkTxVsFbt92e4${Font_color_suffix}"
-}
 Upload_DB(){
 	echo -e "${Green_font_prefix}Перед вам выйдет строка с ссылкой на файлообменник, откуда вы сможете скачать базу данных. 
 	Пример строки:{'success':'true','key':**********,'link':https://file.io/***********,'expiry':14 days} 
@@ -1778,7 +1771,9 @@ Upload_DB(){
 	curl -F "file=@/usr/local/shadowsocksr/mudb.json" "https://file.io" && echo -e "${Green_font_prefix}Закрытие программы...${Font_color_suffix}"
 }
 Download_DB(){
-	if [[ ${base_link} == "n" ]]; then   echo "Отмена..." && exit 1  else 
+echo -e "${Green_font_prefix} Внимание: это приведет к перезаписи всей базы пользователей, вы готовы что хотите продолжить?${Font_color_suffix}(y/n)"
+read -e -p "(По умолчанию: отмена):" base_override
+if [[ ${base_link} == "n" ]]; then   echo "Отмена..." && exit 1  else 
 cd /usr/local/shadowsocksr
 rm "/usr/local/shadowsocksr/mudb.json"
 curl -o "mudb.json" "${base_link}"   
